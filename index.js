@@ -1,26 +1,21 @@
 const axios = require('axios')
+const {
+    // split_array,
+    path_fetch,
+} = require('./helpers.js')
 
 const cfg = require('./config.js')
 
 const domain = 'https://www.pathofexile.com'
-
-function path_fetch(arr, query) {
-    let path = '/api/trade/fetch/'
-    for(let i = 0; i < 7; i++) {
-        path += arr[i] + ','
-    }
-    path += `?query=${query}`
-    return domain + path
-}
-
 const path_search = domain + '/api/trade/search/Standard'
-const path_www = id => domain + '/trade/exchange/Standard/' + id
+const path_www = id => domain + '/trade/search/Standard/' + id
+
+
+
 
 const body = {
     query:{
-        status: {
-            option: "any",
-        },
+        status: { option: "any", },
         filters: {
             trade_filters: cfg.only_me,
             type_filters: cfg.ring,
@@ -29,10 +24,12 @@ const body = {
 }
 
 
+
 const search = {
     url: path_search + `?source=${JSON.stringify(body)}`,
     method: 'get',
 }
+
 
 
 axios(search)
@@ -44,7 +41,15 @@ axios(search)
         }
     })
     .then( res => {
-        const api = path_fetch(res.fetch, res.query_id)
+        show_resoults(res)
+    })
+    .catch(err=>console.log(err) )
+
+
+
+function show_resoults(res) {
+    const apis = path_fetch(res.fetch, res.query_id, domain)
+    apis.map( api => {
         axios(api)
             .then(res_items => {
                 const result = res_items.data.result
@@ -53,10 +58,10 @@ axios(search)
                     console.log('--------------------------------')
                     const all = {
                         item: el.item.name + ' ' + el.item.typeLine,
-                        implicit_mods: el.item.implicitMods,
-                        explicit_mods: el.item.explicitMods,
-                        stash: el.listing.stash,
-                        account: el.listing.account.name,
+                        // implicit_mods: el.item.implicitMods,
+                        // explicit_mods: el.item.explicitMods,
+                        // stash: el.listing.stash,
+                        // account: el.listing.account.name,
                     }
                     console.log(all)
                 })
@@ -71,5 +76,4 @@ axios(search)
             })
             .catch(err=>console.log(err) )
     })
-    .catch(err=>console.log(err) )
-
+}
