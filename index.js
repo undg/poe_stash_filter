@@ -19,32 +19,39 @@ const body = {
         filters: {
             trade_filters: cfg.only_me,
             type_filters: cfg.ring,
-        }
+        },
+        stats: cfg.life_and_es,
     },
 }
 
 
 
-const search = {
-    url: path_search + `?source=${JSON.stringify(body)}`,
-    method: 'get',
+
+const filters = [
+    body
+]
+
+filters.forEach(filter => run_filter(filter))
+
+function run_filter(filter) {
+    const search = {
+        url: path_search + `?source=${JSON.stringify(filter)}`,
+        method: 'get',
+    }
+
+    axios(search)
+        .then( res => {
+            return {
+                query_id : res.data.id,
+                fetch    : res.data.result,
+                total    : res.data.total
+            }
+        })
+        .then( res => {
+            show_resoults(res)
+        })
+        .catch(err=>console.log(err) )
 }
-
-
-
-axios(search)
-    .then( res => {
-        return {
-            query_id : res.data.id,
-            fetch    : res.data.result,
-            total    : res.data.total
-        }
-    })
-    .then( res => {
-        show_resoults(res)
-    })
-    .catch(err=>console.log(err) )
-
 
 
 function show_resoults(res) {
@@ -58,9 +65,9 @@ function show_resoults(res) {
                     console.log('--------------------------------')
                     const all = {
                         item: el.item.name + ' ' + el.item.typeLine,
-                        // implicit_mods: el.item.implicitMods,
-                        // explicit_mods: el.item.explicitMods,
-                        // stash: el.listing.stash,
+                        implicit_mods: el.item.implicitMods,
+                        explicit_mods: el.item.explicitMods,
+                        stash: el.listing.stash,
                         // account: el.listing.account.name,
                     }
                     console.log(all)
