@@ -2,3 +2,5 @@ node_modules/
 *.vim
 *.swp
 *.swo
+
+config.js
