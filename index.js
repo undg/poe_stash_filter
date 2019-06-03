@@ -11,27 +11,7 @@ const path_search = domain + '/api/trade/search/Standard'
 const path_www = id => domain + '/trade/search/Standard/' + id
 
 
-
-
-const body = {
-    query:{
-        status: { option: "any", },
-        filters: {
-            trade_filters: cfg.only_me,
-            type_filters: cfg.ring,
-        },
-        stats: cfg.life_and_es,
-    },
-}
-
-
-
-
-const filters = [
-    body
-]
-
-filters.forEach(filter => run_filter(filter))
+cfg.filters.forEach(filter => run_filter(filter))
 
 function run_filter(filter) {
     const search = {

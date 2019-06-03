@@ -1,3 +1,4 @@
+// general
 const only_me = {
     "disabled": false,
     "filters": {
@@ -14,6 +15,7 @@ const only_me = {
     }
 }
 
+// items
 const ring = {
     filters: {
         category: {
@@ -22,211 +24,16 @@ const ring = {
     },
 }
 
-
-const full_query = {
-    "query": {
-        "status": {
-            "option": "online"
-            },
-        "name": "Kaom's Primacy",
-        "type": "Karui Chopper",
-        "stats": [
-            {
-                "type": "and",
-                "filters": [{
-                    "id": "pseudo.pseudo_total_attack_speed",
-                    "value": {
-                        "min": 1,
-                        "max": 9999
-                    },
-                    "disabled": false
-                }, {
-                    "id": "pseudo.pseudo_count_elemental_resistances",
-                    "value": {
-                        "min": 1,
-                        "max": 9999
-                    },
-                    "disabled": false
-                }]
-            }
-        ],
-        "filters": {
-            "weapon_filters": {
-                "disabled": false,
-                "filters": {
-                    "damage": {
-                        "min": 1,
-                        "max": 9999
-                        },
-                    "crit": {
-                        "min": 1,
-                        "max": 9999
-                        },
-                    "aps": {
-                        "min": 1,
-                        "max": 9999
-                        },
-                    "dps": {
-                        "min": 1,
-                        "max": 9999
-                        },
-                    "edps": {
-                        "min": 1,
-                        "max": 9999
-                        },
-                    "pdps": {
-                        "min": 1,
-                        "max": 9999
-                        }
-                    }
-                },
-            "armour_filters": {
-                "disabled": false,
-                "filters": {
-                    "ar": {
-                        "min": 1,
-                        "max": 9999
-                        },
-                    "es": {
-                        "min": 1,
-                        "max": 9999
-                        },
-                    "ev": {
-                        "min": 1,
-                        "max": 9999
-                        },
-                    "block": {
-                        "min": 1,
-                        "max": 9999
-                        }
-                    }
-                },
-            "socket_filters": {
-                "disabled": false,
-                "filters": {
-                    "sockets": {
-                        "min": 1,
-                        "max": 9999,
-                        "r": 1,
-                        "g": 1,
-                        "b": 1,
-                        "w": 1
-                        },
-                    "links": {
-                        "min": 1,
-                        "max": 9999,
-                        "r": 1,
-                        "g": 1,
-                        "b": 1,
-                        "w": 1
-                        }
-                    }
-                },
-            "req_filters": {
-                "disabled": false,
-                "filters": {
-                    "lvl": {
-                        "min": 1,
-                        "max": 9999
-                        },
-                    "dex": {
-                        "min": 1,
-                        "max": 9999
-                        },
-                    "str": {
-                        "min": 1,
-                        "max": 9999
-                        },
-                    "int": {
-                        "min": 1,
-                        "max": 9999
-                        }
-                    }
-                },
-            "misc_filters": {
-                "disabled": false,
-                "filters": {
-                    "quality": {
-                        "min": 1,
-                        "max": 9999
-                        },
-                    "map_tier": {
-                        "min": 1,
-                        "max": 9999
-                        },
-                    "map_iiq": {
-                        "min": 1,
-                        "max": 9999
-                        },
-                    "gem_level": {
-                        "min": 1,
-                        "max": 9999
-                        },
-                    "ilvl": {
-                        "min": 1,
-                        "max": 9999
-                        },
-                    "map_packsize": {
-                        "min": 1,
-                        "max": 9999
-                        },
-                    "map_iir": {
-                        "min": 1,
-                        "max": 9999
-                        },
-                    "talisman_tier": {
-                        "min": 1,
-                        "max": 9999
-                        },
-                    "alternate_art": {
-                        "option": "true"
-                        },
-                    "identified": {
-                        "option": "true"
-                        },
-                    "corrupted": {
-                        "option": "true"
-                        },
-                    "crafted": {
-                        "option": "true"
-                        },
-                    "enchanted": {
-                        "option": "true"
-                        }
-                    }
-                },
-            "trade_filters": {
-                "disabled": false,
-                "filters": {
-                    "account": {
-                        "input": "xxx_accountname_xxx"
-                        },
-                    "sale_type": {
-                        "option": "priced"
-                        },
-                    "price": {
-                        "min": 1,
-                        "max": 9999
-                        }
-                    }
-                },
-            "type_filters": {
-                "filters": {
-                    "category": {
-                        "option": "weapon.twoaxe"
-                        },
-                    "rarity": {
-                        "option": "unique"
-                        }
-                    }
-                }
-            }
-        },
-    "sort": {
-        "price": "asc"
+const boots = {
+    filters: {
+        category: {
+            option: "armour.boots"
         }
+    },
 }
 
+
+// stats
 function life_es(hp, es, count) {
     const stats = [
         {
@@ -253,18 +60,76 @@ function life_es(hp, es, count) {
             disabled: false
         },
     ]
-
     return stats
 }
 
-const life_and_es = life_es(80, 40, 2)
-const life_or_es = life_es(80, 40, 1)
+function speed(speed) {
+    const stats = [
+        {
+            type: "count",
+            filters: [
+                {
+                    id: "pseudo.pseudo_increased_movement_speed",
+                    value: {
+                        min: speed
+                    },
+                    disabled: false
+                },
+            ],
+            value: {
+                min: 1
+            },
+            disabled: false
+        },
+    ]
+    return stats
+}
+
+
+
+// filters
+//////////////////////////////////////////////
+const ring_hp_and_es = {
+    query:{
+        status: { option: "any", },
+        filters: {
+            trade_filters: only_me,
+            type_filters: ring,
+        },
+        stats: life_es(80, 40, 2),
+    },
+}
+
+const ring_hp_or_es = {
+    query:{
+        status: { option: "any", },
+        filters: {
+            trade_filters: only_me,
+            type_filters: ring,
+        },
+        stats: life_es(100, 55, 1),
+    },
+}
+
+const boots_speed = {
+    query:{
+        status: { option: "any", },
+        filters: {
+            trade_filters: only_me,
+            type_filters: boots,
+        },
+        stats: speed(30),
+    },
+}
+
+
+const filters = [
+    ring_hp_and_es,
+    ring_hp_or_es,
+    boots_speed,
+]
 
 module.exports = {
-    only_me: only_me,
-    ring: ring,
-    life_es: life_es,
-    life_and_es: life_and_es,
-    life_or_es: life_or_es,
+    filters: filters,
 }
 
